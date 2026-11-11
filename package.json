@@ -1,11 +1,12 @@
 {
   "name": "github-actions-ci-demo",
   "version": "1.0.0",
-  "description": "GitHub Actions CI Demo",
+  "description": "API REST de Categorias con Integracion Continua (GitHub Actions)",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -16,6 +17,7 @@
     "eslint": "^10.14.0",
     "globals": "^17.14.0",
     "jest": "^30.5.2",
+    "puppeteer-core": "^25.17.0",
     "supertest": "^7.3.2"
   }
 }

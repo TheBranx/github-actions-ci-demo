@@ -1,4 +1,4 @@
-name: CI con Matriz
+name: CI Pipeline - Integracion Continua
 
 on:
   push:
@@ -10,27 +10,28 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
-    strategy:
-      matrix:
-        node-version: [20, 22]
-
     steps:
       - name: Checkout del codigo
         uses: actions/checkout@v6
 
-      - name: Configurar Node.js ${{ matrix.node-version }}
+      - name: Configurar Node.js 20
         uses: actions/setup-node@v6
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '20'
 
       - name: Instalar dependencias
         run: npm ci
 
-      - name: Ejecutar linting
+      - name: Ejecutar analisis estatico (Linting)
         run: npm run lint
 
-      - name: Ejecutar pruebas
-        run: npm test
+      - name: Ejecutar pruebas unitarias y cobertura
+        run: npm run test:coverage
+
+      - name: Subir reporte de cobertura como artefacto
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 7
